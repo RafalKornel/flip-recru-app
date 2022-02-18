@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 
 import { Planet, Swapi } from "../../services/api";
 import styles from "../../styles/planets.module.scss";
@@ -16,17 +17,31 @@ const Row: React.FC<{ label: string; value: string }> = ({ label, value }) => (
 
 const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
   return (
-    <section className={styles.planet}>
-      <h1>{planet.name}</h1>
-      <Row label={"Climate"} value={planet.climate} />
-      <Row label={"Diameter"} value={planet.diameter} />
-      <Row label={"Gravity"} value={planet.gravity} />
-      <Row label={"Rotation period"} value={planet.rotation_period} />
-      <Row label={"Orbital period"} value={planet.orbital_period} />
-      <Row label={"Surface water"} value={planet.surface_water} />
-      <Row label={"Terrain"} value={planet.terrain} />
-      <Row label={"Population"} value={planet.population} />
-    </section>
+    <>
+      <Head>
+        <title>Planet {planet.name}</title>
+        <meta
+          name="description"
+          content="Navigate through galaxies with navigation tool. Join the Ligh side of Force."
+        />
+        <meta property="og:title" content="Planets navigation system" />
+        <meta
+          property="og:description"
+          content="Navigate through universe, fight the dark side."
+        />
+      </Head>
+      <section className={styles.planet}>
+        <h1>{planet.name}</h1>
+        <Row label={"Climate"} value={planet.climate} />
+        <Row label={"Diameter"} value={planet.diameter} />
+        <Row label={"Gravity"} value={planet.gravity} />
+        <Row label={"Rotation period"} value={planet.rotation_period} />
+        <Row label={"Orbital period"} value={planet.orbital_period} />
+        <Row label={"Surface water"} value={planet.surface_water} />
+        <Row label={"Terrain"} value={planet.terrain} />
+        <Row label={"Population"} value={planet.population} />
+      </section>
+    </>
   );
 };
 

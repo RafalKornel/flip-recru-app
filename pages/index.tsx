@@ -1,4 +1,5 @@
 import type { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 
 import { PlanetCard } from "../components/PlanetCard";
 import { Planet, Swapi } from "../services/api";
@@ -10,12 +11,17 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = ({ planets }) => {
   return (
-    <div className={styles.planetsWrapper}>
-      {planets &&
-        planets.map((planet, index) => (
-          <PlanetCard key={planet.url} name={planet.name} id={index + 1} />
-        ))}
-    </div>
+    <>
+      <Head>
+        <title>Star wars navigation system</title>
+      </Head>
+      <div className={styles.planetsWrapper}>
+        {planets &&
+          planets.map((planet, index) => (
+            <PlanetCard key={planet.url} name={planet.name} id={index + 1} />
+          ))}
+      </div>
+    </>
   );
 };
 
