@@ -9,8 +9,11 @@ interface PlanetCardProps {
 
 export const PlanetCard = ({ name, id }: PlanetCardProps) => {
   return (
-    <div className={classnames(styles.planetCard, styles.center)}>
-      <Link href={`planets/${id}`}>{name}</Link>
+    <div
+      className={classnames(styles.planetCard, styles.center)}
+      data-testid="planet-card"
+    >
+      <Link href={`planet/${id}`}>{name}</Link>
     </div>
   );
 };

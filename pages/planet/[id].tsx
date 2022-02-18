@@ -32,8 +32,8 @@ const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
           content="Navigate through universe, fight the dark side."
         />
       </Head>
-      <div className={styles.planetPage}>
-        <section data-testid="planet">
+      <div className={styles.planetPage} data-testid="planet">
+        <section>
           <h1>{planet.name}</h1>
           <Row label={"Climate"} value={planet.climate} />
           <Row label={"Diameter"} value={planet.diameter} />

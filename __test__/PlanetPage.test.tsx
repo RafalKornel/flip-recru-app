@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import PlanetPage from "../pages/planets/[id]";
+
+import PlanetPage from "../pages/planet/[id]";
 import { Planet } from "../services/api";
 
 const mockedPlanet: Planet = {
@@ -20,18 +21,18 @@ const mockedPlanet: Planet = {
   url: "https://swapi.dev/api/planets/12/",
 };
 
+const getElement = () => screen.getByTestId("planet");
+
 it("should render", () => {
   render(<PlanetPage planet={mockedPlanet} />);
 
-  const planetElement = screen.getByTestId("planet");
-
-  expect(planetElement).toBeInTheDocument();
+  expect(getElement()).toBeInTheDocument();
 });
 
 it("should display facts about planet", () => {
   render(<PlanetPage planet={mockedPlanet} />);
 
-  const planetElement = screen.getByTestId("planet");
+  const planetElement = getElement();
 
   expect(planetElement).toHaveTextContent(mockedPlanet.name);
   expect(planetElement).toHaveTextContent(mockedPlanet.climate);
@@ -41,4 +42,14 @@ it("should display facts about planet", () => {
   expect(planetElement).toHaveTextContent(mockedPlanet.population);
   expect(planetElement).toHaveTextContent(mockedPlanet.rotation_period);
   expect(planetElement).toHaveTextContent(mockedPlanet.surface_water);
+});
+
+it("should have back button", () => {
+  render(<PlanetPage planet={mockedPlanet} />);
+
+  const homeLink = screen.getByText("Home");
+
+  expect(homeLink).toBeInTheDocument();
+  expect(homeLink).toBeInstanceOf(HTMLAnchorElement);
+  expect(homeLink.getAttribute("href")).toBe("/");
 });
