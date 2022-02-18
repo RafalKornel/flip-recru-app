@@ -17,10 +17,6 @@
 
     font-weight: bold;
     font-size: 1.8em;
-
-    img {
-      cursor: pointer;
-    }
   }
 
   main {
@@ -68,28 +64,37 @@
   font-size: 1.3em;
 }
 
-.planet {
+.planetPage {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 
-  margin-bottom: auto;
-  padding: 20px;
-  padding-top: 0;
+  align-items: center;
 
-  background-color: #000;
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-  border: 1px solid #ffe81f;
-  border-radius: 20px;
+    padding: 20px;
+    padding-top: 0;
+
+    background-color: #000;
+
+    border: 1px solid #ffe81f;
+    border-radius: 20px;
+  }
+
+  a {
+    font-size: 1.3em;
+    margin-top: 20px;
+    margin-bottom: auto;
+  }
 }
 
 .row {
   display: flex;
 
   gap: 10px;
-}
-
-.planetFacts {
 }
 
 @media only screen and (max-width: 640px) {

@@ -10,9 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className={styles.layout}>
       <header className={classnames(styles.header, styles.center)}>
-        <Link href="/" passHref>
-          <Image src="/logo.png" width={637} height={50} alt="logo" />
-        </Link>
+        <Image src="/logo.png" width={637} height={50} alt="logo" />
       </header>
       <main>
         <Component {...pageProps} />
