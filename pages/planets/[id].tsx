@@ -1,15 +1,32 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+
 import { Planet, Swapi } from "../../services/api";
+import styles from "../../styles/planets.module.scss";
 
 interface PlanetPageProps {
   planet: Planet;
 }
 
+const Row: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+  <div className={styles.row}>
+    <span>{label}:</span>
+    <span>{value}</span>
+  </div>
+);
+
 const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
   return (
-    <div>
-      <pre>{JSON.stringify(planet, null, 2)}</pre>
-    </div>
+    <section className={styles.planet}>
+      <h1>{planet.name}</h1>
+      <Row label={"Climate"} value={planet.climate} />
+      <Row label={"Diameter"} value={planet.diameter} />
+      <Row label={"Gravity"} value={planet.gravity} />
+      <Row label={"Rotation period"} value={planet.rotation_period} />
+      <Row label={"Orbital period"} value={planet.orbital_period} />
+      <Row label={"Surface water"} value={planet.surface_water} />
+      <Row label={"Terrain"} value={planet.terrain} />
+      <Row label={"Population"} value={planet.population} />
+    </section>
   );
 };
 
