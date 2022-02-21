@@ -25,13 +25,19 @@ const Home: NextPage<HomeProps> = ({ planets }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { planets } = await Swapi.getAllPlanets();
+  try {
+    const { planets } = await Swapi.getAllPlanets();
 
-  return {
-    props: {
-      planets,
-    },
-  };
+    return {
+      props: {
+        planets,
+      },
+    };
+  } catch (e) {
+    console.error(e);
+
+    return { props: { planets: [] } };
+  }
 };
 
 export default Home;

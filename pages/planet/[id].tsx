@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -6,17 +5,12 @@ import { useState } from "react";
 
 import { Planet, Swapi } from "../../services/api";
 import styles from "../../styles/planets.module.scss";
+import { createFallbackPlanet } from "../../utils/createFallbackPlanet";
+import { FactsRow } from "../../components/FactsRowProps";
 
 interface PlanetPageProps {
   planet: Planet;
 }
-
-const Row = ({ label, value }: { label: string; value: string }) => (
-  <div className={styles.row}>
-    <span>{label}:</span>
-    <span>{value}</span>
-  </div>
-);
 
 const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,14 +32,14 @@ const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
       <div className={styles.planetPage} data-testid="planet">
         <section className={styles.planetPage__facts}>
           <h1>{planet.name}</h1>
-          <Row label={"Climate"} value={planet.climate} />
-          <Row label={"Diameter"} value={planet.diameter} />
-          <Row label={"Gravity"} value={planet.gravity} />
-          <Row label={"Rotation period"} value={planet.rotation_period} />
-          <Row label={"Orbital period"} value={planet.orbital_period} />
-          <Row label={"Surface water"} value={planet.surface_water} />
-          <Row label={"Terrain"} value={planet.terrain} />
-          <Row label={"Population"} value={planet.population} />
+          <FactsRow label={"Climate"} value={planet.climate} />
+          <FactsRow label={"Diameter"} value={planet.diameter} />
+          <FactsRow label={"Gravity"} value={planet.gravity} />
+          <FactsRow label={"Rotation period"} value={planet.rotation_period} />
+          <FactsRow label={"Orbital period"} value={planet.orbital_period} />
+          <FactsRow label={"Surface water"} value={planet.surface_water} />
+          <FactsRow label={"Terrain"} value={planet.terrain} />
+          <FactsRow label={"Population"} value={planet.population} />
         </section>
         <div
           onClick={() => setIsLoading(true)}
@@ -59,35 +53,50 @@ const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const planets = await Swapi.getPlanets();
+  try {
+    const planets = await Swapi.getPlanets();
 
-  const indices = new Array(planets.count).fill(0).map((_, i) => i + 1);
+    const indices = new Array(planets.count).fill(0).map((_, i) => i + 1);
 
-  const paths = indices.map((index) => ({
-    params: { id: String(index) },
-  }));
+    const paths = indices.map((index) => ({
+      params: { id: String(index) },
+    }));
 
-  return {
-    paths,
-    fallback: false,
-  };
+    return {
+      paths,
+      fallback: false,
+    };
+  } catch (e) {
+    console.error(e);
+    return { paths: [], fallback: false };
+  }
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const rawId = params?.id as string;
-  const id = Number(rawId);
+  try {
+    const rawId = params?.id as string;
+    const id = Number(rawId);
 
-  if (!Number.isInteger(id)) {
-    throw new Error("Id must be an integer");
+    if (!Number.isInteger(id)) {
+      throw new Error("Id must be an integer");
+    }
+
+    const planet = await Swapi.getPlanet(id);
+
+    return {
+      props: {
+        planet,
+      },
+    };
+  } catch (e) {
+    console.error(e);
+
+    return {
+      props: {
+        planet: createFallbackPlanet(),
+      },
+    };
   }
-
-  const planet = await Swapi.getPlanet(id);
-
-  return {
-    props: {
-      planet,
-    },
-  };
 };
 
 export default PlanetPage;

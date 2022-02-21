@@ -1,5 +1,4 @@
 import type { AppProps } from "next/app";
-import Link from "next/link";
 import Image from "next/image";
 import classnames from "classnames";
 

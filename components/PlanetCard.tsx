@@ -12,14 +12,16 @@ export const PlanetCard = ({ name, id }: PlanetCardProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <Link href={`planet/${id}`}>
-      <div
-        className={classnames(styles.planetCard, styles.center)}
-        data-testid="planet-card"
-        onClick={() => setIsLoading(true)}
-      >
-        {isLoading ? "Loading..." : name}
-      </div>
-    </Link>
+    <>
+      <Link href={`planet/${id}`} passHref>
+        <div
+          className={classnames(styles.planetCard, styles.center)}
+          onClick={() => setIsLoading(true)}
+          data-testid="planet-card"
+        >
+          {isLoading ? "Loading..." : name}
+        </div>
+      </Link>
+    </>
   );
 };

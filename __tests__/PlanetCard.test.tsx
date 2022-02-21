@@ -16,11 +16,11 @@ it("should display planet name", () => {
 
 it("should have link", () => {
   const testId = 10;
-  const { container } = render(<PlanetCard id={testId} name="Test planet" />);
 
-  const link = container.querySelector("a");
+  render(<PlanetCard id={testId} name="Test planet" />);
+
+  const link = screen.getByTestId("planet-card");
 
   expect(link).toBeInTheDocument();
-  expect(link).toBeInstanceOf(HTMLAnchorElement);
   expect(link?.getAttribute("href")).toBe(`/planet/${testId}`);
 });
