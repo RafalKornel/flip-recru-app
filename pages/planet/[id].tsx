@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 
 import { Planet, Swapi } from "../../services/api";
 import styles from "../../styles/planets.module.scss";
@@ -10,7 +11,7 @@ interface PlanetPageProps {
   planet: Planet;
 }
 
-const Row: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+const Row = ({ label, value }: { label: string; value: string }) => (
   <div className={styles.row}>
     <span>{label}:</span>
     <span>{value}</span>
@@ -18,6 +19,8 @@ const Row: React.FC<{ label: string; value: string }> = ({ label, value }) => (
 );
 
 const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       <Head>
@@ -33,7 +36,7 @@ const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
         />
       </Head>
       <div className={styles.planetPage} data-testid="planet">
-        <section>
+        <section className={styles.planetPage__facts}>
           <h1>{planet.name}</h1>
           <Row label={"Climate"} value={planet.climate} />
           <Row label={"Diameter"} value={planet.diameter} />
@@ -44,7 +47,12 @@ const PlanetPage: NextPage<PlanetPageProps> = ({ planet }) => {
           <Row label={"Terrain"} value={planet.terrain} />
           <Row label={"Population"} value={planet.population} />
         </section>
-        <Link href="/">Home</Link>
+        <div
+          onClick={() => setIsLoading(true)}
+          className={styles.planetPage__homeButton}
+        >
+          <Link href="/">{isLoading ? "Loading..." : "Home"}</Link>
+        </div>
       </div>
     </>
   );
@@ -66,13 +74,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const id = params?.id;
+  const rawId = params?.id as string;
+  const id = Number(rawId);
 
-  if (Number.isInteger(id)) {
+  if (!Number.isInteger(id)) {
     throw new Error("Id must be an integer");
   }
 
-  const planet = await Swapi.getPlanet(Number(id));
+  const planet = await Swapi.getPlanet(id);
 
   return {
     props: {

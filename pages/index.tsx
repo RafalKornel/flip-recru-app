@@ -16,10 +16,9 @@ const Home: NextPage<HomeProps> = ({ planets }) => {
         <title>Star wars navigation system</title>
       </Head>
       <div className={styles.planetsWrapper}>
-        {planets &&
-          planets.map((planet, index) => (
-            <PlanetCard key={planet.url} name={planet.name} id={index + 1} />
-          ))}
+        {planets.map((planet, index) => (
+          <PlanetCard key={planet.url} name={planet.name} id={index + 1} />
+        ))}
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import Link from "next/link";
+import { useState } from "react";
 import styles from "../styles/planets.module.scss";
 
 interface PlanetCardProps {
@@ -8,12 +9,17 @@ interface PlanetCardProps {
 }
 
 export const PlanetCard = ({ name, id }: PlanetCardProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <div
-      className={classnames(styles.planetCard, styles.center)}
-      data-testid="planet-card"
-    >
-      <Link href={`planet/${id}`}>{name}</Link>
-    </div>
+    <Link href={`planet/${id}`}>
+      <div
+        className={classnames(styles.planetCard, styles.center)}
+        data-testid="planet-card"
+        onClick={() => setIsLoading(true)}
+      >
+        {isLoading ? "Loading..." : name}
+      </div>
+    </Link>
   );
 };

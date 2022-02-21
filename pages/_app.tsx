@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <header className={classnames(styles.header, styles.center)}>
         <Image src="/logo.png" width={637} height={50} alt="logo" />
       </header>
-      <main>
+      <main className={styles.content}>
         <Component {...pageProps} />
       </main>
     </div>
